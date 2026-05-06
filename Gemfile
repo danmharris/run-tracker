@@ -2,6 +2,7 @@
 
 source 'https://rubygems.org'
 
+gem 'gpx'
 gem 'puma'
 gem 'rack-unreloader'
 gem 'roda'

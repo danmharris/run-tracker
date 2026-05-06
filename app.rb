@@ -1,3 +1,4 @@
+require 'gpx'
 require 'roda'
 require 'tilt'
 
@@ -48,6 +49,15 @@ class App < Roda
     end
 
     r.on 'runs' do
+      r.on String do |id|
+        r.get do
+          gpx = GPX::GPXFile.new(gpx_file: File.join(runs_dir, "#{id}.gpx"))
+          @distance = gpx.distance
+          @time = gpx.duration / 60
+          view('runs/show')
+        end
+      end
+
       r.get 'new' do
         view('runs/new')
       end
