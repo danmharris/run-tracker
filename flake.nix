@@ -31,6 +31,9 @@
           devShells.default = pkgs.mkShell {
             RACK_ENV = "development";
 
+            # Shared use for devShell only. DO NOT use in production
+            SECRET_KEY = "76f1f55c927976960b98e01e42bad136f9dea46b8f9428657d247154f3339f6b";
+
             packages = [
               pkgs.bundix
               gems

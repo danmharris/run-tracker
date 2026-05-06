@@ -1,0 +1,5 @@
+<form action="/runs" method="post" enctype="multipart/form-data">
+  <%= csrf_tag("/runs") %>
+  <input name="file" type="file" />
+  <input type="submit" value="Create" />
+</form>
