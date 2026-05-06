@@ -48,15 +48,22 @@ class App < Roda
     end
 
     r.on 'runs' do
-      r.post do
-        tempfile = tp.file('file')[:tempfile]
-        uuid = SecureRandom.uuid
-        FileUtils.mv(tempfile.path, File.join(runs_dir, "#{uuid}.gpx"))
-        r.redirect('/')
-      end
-
       r.get 'new' do
         view('runs/new')
+      end
+
+      r.is do
+        r.get do
+          @runs = Dir["#{runs_dir}/*"].map { File.basename(_1).sub(/[.]gpx$/, '') }
+          view('runs/index')
+        end
+
+        r.post do
+          tempfile = tp.file('file')[:tempfile]
+          uuid = SecureRandom.uuid
+          FileUtils.mv(tempfile.path, File.join(runs_dir, "#{uuid}.gpx"))
+          r.redirect('/runs')
+        end
       end
     end
   end
