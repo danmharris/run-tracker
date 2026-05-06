@@ -21,6 +21,7 @@ class App < Roda
          'X-Content-Type-Options' => 'nosniff'
 
   plugin :common_logger, $stdout
+  plugin :content_for
   plugin :render
   plugin :route_csrf
   plugin :sessions, secret: ENV['SECRET_KEY']
@@ -51,9 +52,33 @@ class App < Roda
     r.on 'runs' do
       r.on String do |id|
         r.get do
+          @nonce = SecureRandom.uuid
+          content_security_policy do |csp|
+            csp.add_style_src('unpkg.com', [:nonce, @nonce])
+            csp.add_script_src('unpkg.com', [:nonce, @nonce], [:sha256, 'ZswfTY7H35rbv8WC7NXBoiC7WNu86vSzCDChNWwZZDM='])
+            csp.add_connect_src('tiles.openfreemap.org')
+            csp.add_worker_src('blob:')
+          end
+
           gpx = GPX::GPXFile.new(gpx_file: File.join(runs_dir, "#{id}.gpx"))
           @distance = gpx.distance
           @time = gpx.duration / 60
+
+          features = gpx.tracks.map do |track|
+            coordinates = track.points.map { [_1.lon, _1.lat] }
+
+            {
+              type: 'Feature',
+              geometry: { type: 'LineString', coordinates: coordinates }
+            }
+          end
+
+          @start = gpx.tracks.first.points.first.then { [_1.lon, _1.lat] }.to_json
+          @geojson = {
+            type: 'FeatureCollection',
+            features: features
+          }.to_json
+
           view('runs/show')
         end
       end
