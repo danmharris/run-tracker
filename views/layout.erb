@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%= content_for(:head) %>
+    <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css' />
+    <script src='https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js'></script>
+    <%= assets(:css) %>
+    <%= assets(:js, type: 'module') %>
   </head>
   <body>
     <%= yield %>

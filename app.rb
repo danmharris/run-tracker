@@ -6,8 +6,10 @@ class App < Roda
   plugin :content_security_policy do |csp|
     csp.default_src :none
     csp.img_src :self
-    csp.style_src :self
-    csp.script_src :self
+    csp.style_src :self, 'unpkg.com'
+    csp.script_src :self, 'unpkg.com', [:sha256, 'ZswfTY7H35rbv8WC7NXBoiC7WNu86vSzCDChNWwZZDM=']
+    csp.connect_src :self, 'tiles.openfreemap.org'
+    csp.worker_src 'blob:'
     csp.font_src :self
     csp.form_action :self
     csp.base_uri :none
@@ -20,8 +22,9 @@ class App < Roda
          'X-Frame-Options' => 'deny',
          'X-Content-Type-Options' => 'nosniff'
 
+  plugin :assets, css: 'main.css', js: 'main.js'
   plugin :common_logger, $stdout
-  plugin :content_for
+  plugin :json
   plugin :render
   plugin :route_csrf
   plugin :sessions, secret: ENV['SECRET_KEY']
@@ -43,6 +46,7 @@ class App < Roda
 
   route do |r|
     r.exception_page_assets
+    r.assets
     check_csrf!
 
     r.root do
@@ -69,19 +73,9 @@ class App < Roda
       end
 
       r.on String do |id|
-        r.get do
-          @nonce = SecureRandom.uuid
-          content_security_policy do |csp|
-            csp.add_style_src('unpkg.com', [:nonce, @nonce])
-            csp.add_script_src('unpkg.com', [:nonce, @nonce], [:sha256, 'ZswfTY7H35rbv8WC7NXBoiC7WNu86vSzCDChNWwZZDM='])
-            csp.add_connect_src('tiles.openfreemap.org')
-            csp.add_worker_src('blob:')
-          end
+        gpx = GPX::GPXFile.new(gpx_file: File.join(runs_dir, "#{id}.gpx"))
 
-          gpx = GPX::GPXFile.new(gpx_file: File.join(runs_dir, "#{id}.gpx"))
-          @distance = gpx.distance
-          @time = gpx.duration / 60
-
+        r.get 'geojson' do
           features = gpx.tracks.map do |track|
             coordinates = track.points.map { [_1.lon, _1.lat] }
 
@@ -91,11 +85,16 @@ class App < Roda
             }
           end
 
-          @start = gpx.tracks.first.points.first.then { [_1.lon, _1.lat] }.to_json
-          @geojson = {
+          {
             type: 'FeatureCollection',
             features: features
-          }.to_json
+          }
+        end
+
+        r.get true do
+          @distance = gpx.distance
+          @time = gpx.duration / 60
+          @center = gpx.tracks.first.points.first
 
           view('runs/show')
         end
