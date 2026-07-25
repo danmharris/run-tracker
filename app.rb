@@ -44,6 +44,13 @@ class App < Roda
     File.join(data_dir, 'runs')
   end
 
+  def format_seconds(time)
+    minutes = (time / 60).floor
+    seconds = (time % 60).floor
+
+    "#{minutes}:#{format('%.2d', seconds)}"
+  end
+
   route do |r|
     r.exception_page_assets
     r.assets
@@ -93,7 +100,7 @@ class App < Roda
 
         r.get true do
           @distance = gpx.distance
-          @time = gpx.duration / 60
+          @time = gpx.duration
           @bounds = gpx.tracks.first.bounds
           @geojson_url = "#{r.path}/geojson"
 

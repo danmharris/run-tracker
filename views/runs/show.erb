@@ -1,7 +1,7 @@
 <ul>
-  <li>Distance (km): <%= @distance %></li>
-  <li>Time (min): <%= @time %></li>
-  <li>Average pace (min/km): <%= @time / @distance %></li>
+  <li>Distance (km): <%= format('%.2f', @distance) %></li>
+  <li>Time (min): <%= format_seconds(@time) %></li>
+  <li>Average pace (min/km): <%= format_seconds(@time / @distance) %></li>
 </ul>
 
 <div id="map" 
