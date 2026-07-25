@@ -25,6 +25,7 @@ class App < Roda
   plugin :assets, css: 'main.css', js: 'main.js'
   plugin :common_logger, $stdout
   plugin :json
+  plugin :relative_path
   plugin :render
   plugin :route_csrf
   plugin :sessions, secret: ENV['SECRET_KEY']
