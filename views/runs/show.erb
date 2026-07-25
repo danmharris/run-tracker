@@ -1,3 +1,4 @@
+<% content_for(:title) do %><%= @run.timestamp.strftime('%d/%m/%y') %><% end %>
 <a href="<%= relative_path('/') %>">Back</a>
 <h1><%= @run.timestamp.strftime('%a %d %b @ %H:%M') %></h1>
 

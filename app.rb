@@ -25,6 +25,7 @@ class App < Roda
 
   plugin :assets, css: 'main.css', js: 'main.js'
   plugin :common_logger, $stdout
+  plugin :content_for
   plugin :json
   plugin :relative_path
   plugin :render
