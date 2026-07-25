@@ -1,5 +1,5 @@
 <ul>
 <% @runs.each do |run| %>
-  <li><a href="/runs/<%= run %>"><%= run %></a></li>
+  <li><a href="/runs/<%= run.uuid %>"><%= run.timestamp.strftime('%a %d %b @ %H:%M') %></a></li>
 <% end %>
 </ul>
