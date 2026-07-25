@@ -95,6 +95,7 @@ class App < Roda
           @distance = gpx.distance
           @time = gpx.duration / 60
           @center = gpx.tracks.first.points.first
+          @geojson_url = "#{r.path}/geojson"
 
           view('runs/show')
         end

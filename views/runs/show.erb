@@ -4,4 +4,4 @@
   <li>Average pace (min/km): <%= @time / @distance %></li>
 </ul>
 
-<div id="map" data-center-lon="<%= @center.lon %>" data-center-lat="<%= @center.lat %>"></div>
+<div id="map" data-geojson-url="<%= @geojson_url %>" data-center-lon="<%= @center.lon %>" data-center-lat="<%= @center.lat %>"></div>

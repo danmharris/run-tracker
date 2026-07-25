@@ -2,6 +2,7 @@ function loadMap(_e) {
   const container = document.querySelector('#map');
   if (container === null) return;
 
+  const data = container.dataset.geojsonUrl;
   const center = [container.dataset.centerLon, container.dataset.centerLat];
   const map = new maplibregl.Map({
         container: 'map',
@@ -13,7 +14,7 @@ function loadMap(_e) {
     map.on('load', () => {
         map.addSource('route', {
             'type': 'geojson',
-            'data': document.location + '/geojson'
+            'data': data
         });
         map.addLayer({
             'id': 'route',
