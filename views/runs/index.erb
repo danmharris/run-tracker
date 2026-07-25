@@ -1,5 +1,9 @@
-<ul>
+<h1>My Runs</h1>
+<div class="runs">
 <% @runs.each do |run| %>
-  <li><a href="/runs/<%= run.uuid %>"><%= run.timestamp.strftime('%a %d %b @ %H:%M') %></a></li>
+  <a class="run" href="/runs/<%= run.uuid %>">
+    <h2><%= format('%.2f', run.distance) %>km</h2>
+    <span><%= run.timestamp.strftime('%a %d %b') %><span>
+  </a>
 <% end %>
-</ul>
+</div>

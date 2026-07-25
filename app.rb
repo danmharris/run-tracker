@@ -59,13 +59,14 @@ class App < Roda
     check_csrf!
 
     r.root do
-      view('index')
+      @runs = Run.order(:timestamp).reverse.all
+      view('runs/index')
     end
 
     r.on 'runs' do
       r.is do
         r.get do
-          @runs = Run.all
+          @runs = Run.order(:timestamp).reverse.all
           view('runs/index')
         end
 
