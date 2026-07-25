@@ -1,4 +1,14 @@
 {
+  bigdecimal = {
+    groups = ["default"];
+    platforms = [];
+    source = {
+      remotes = ["https://rubygems.org"];
+      sha256 = "1g9zi8c4i7g8zz0c3hxrw6mblrjvgn7akys60clb9si7c1k1gljk";
+      type = "gem";
+    };
+    version = "4.1.2";
+  };
   csv = {
     groups = ["default"];
     platforms = [];
@@ -112,6 +122,28 @@
       type = "gem";
     };
     version = "3.103.0";
+  };
+  sequel = {
+    dependencies = ["bigdecimal"];
+    groups = ["default"];
+    platforms = [];
+    source = {
+      remotes = ["https://rubygems.org"];
+      sha256 = "1kaln85mw6388bwgyq2cnb7rg6d6z5gcjpsdkfyfq97763r7frhf";
+      type = "gem";
+    };
+    version = "5.106.0";
+  };
+  sqlite3 = {
+    dependencies = ["mini_portile2"];
+    groups = ["default"];
+    platforms = [];
+    source = {
+      remotes = ["https://rubygems.org"];
+      sha256 = "01i6k25fv3w3f5ph5cix9ipg19ajsy6zrzxdm18ashzrldrjjmq4";
+      type = "gem";
+    };
+    version = "2.9.5";
   };
   tilt = {
     groups = ["default"];

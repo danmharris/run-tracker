@@ -38,6 +38,7 @@
               pkgs.bundix
               gems
               gems.wrappedRuby
+              pkgs.sqlite
             ];
           };
         };

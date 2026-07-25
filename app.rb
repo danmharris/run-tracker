@@ -1,6 +1,7 @@
 require 'gpx'
 require 'roda'
 require 'tilt'
+require_relative 'models'
 
 class App < Roda
   plugin :content_security_policy do |csp|

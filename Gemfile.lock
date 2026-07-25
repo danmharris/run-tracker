@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    bigdecimal (4.1.2)
     csv (3.3.5)
     gpx (1.2.2)
       csv
@@ -21,6 +22,11 @@ GEM
     rake (13.4.2)
     roda (3.103.0)
       rack
+    sequel (5.106.0)
+      bigdecimal
+    sqlite3 (2.9.5)
+      mini_portile2 (~> 2.8.0)
+    sqlite3 (2.9.5-x86_64-linux-gnu)
     tilt (2.7.0)
 
 PLATFORMS
@@ -32,7 +38,9 @@ DEPENDENCIES
   puma
   rack-unreloader
   roda
+  sequel
+  sqlite3
   tilt
 
 BUNDLED WITH
-   2.7.2
+   2.6.9

@@ -1,2 +1,3 @@
 .direnv/
 /runs/
+runs.db
