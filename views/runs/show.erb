@@ -1,9 +1,29 @@
 <a href="<%= relative_path('/runs') %>">Back</a>
-<ul>
-  <li>Distance (km): <%= format('%.2f', @distance) %></li>
-  <li>Time (min): <%= format_seconds(@time) %></li>
-  <li>Average pace (min/km): <%= format_seconds(@time / @distance) %></li>
-</ul>
+<h1><%= @time.strftime('%a %d %b @ %H:%M') %></h1>
+
+<div class="stats">
+  <div class="stat">
+    <h2>DIST</h2>
+    <div class="value">
+      <span><%= format('%.2f', @distance) %><span>
+      <span class="unit">km</span>
+    </div>
+  </div>
+  <div class="stat">
+    <h2>TIME</h2>
+    <div class="value">
+      <span><%= format_seconds(@duration) %><span>
+      <span class="unit">min</span>
+    </div>
+  </div>
+  <div class="stat">
+    <h2>PACE</h2>
+    <div class="value">
+      <span><%= format_seconds(@duration / @distance) %><span>
+      <span class="unit">min/km</span>
+    </div>
+  </div>
+</div>
 
 <div id="map" 
   data-geojson-url="<%= @geojson_url %>"

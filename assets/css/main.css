@@ -46,5 +46,52 @@ textarea, select {
 
 #map {
   height: 500px;
-  width: 500px;
+  width: 100%;
+}
+
+body {
+  padding: 1.2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-weight: 700;
+  padding-bottom: 0.8rem;
+  margin: 1.2rem 0.4rem;
+  border-bottom: 1px solid gray;
+}
+
+.stats {
+  display: grid;
+  gap: 1.2rem;
+  margin: 1.2rem 0;
+}
+
+@media screen and (width < 500px) {
+  .stats {
+    grid-template-rows: repeat(3, 1fr);
+  }
+}
+
+@media screen and (width >= 500px) {
+  .stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.stat {
+  text-align:center;
+}
+
+.stat > h2 {
+  font-size: 1.2rem;
+}
+
+.value {
+  font-size: 1.6rem;
+}
+
+.unit {
+  font-size: 0.8em;
 }

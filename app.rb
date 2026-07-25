@@ -100,8 +100,9 @@ class App < Roda
         end
 
         r.get true do
+          @time = gpx.tracks.first.points.first.time
           @distance = gpx.distance
-          @time = gpx.duration
+          @duration = gpx.duration
           @bounds = gpx.tracks.first.bounds
           @geojson_url = "#{r.path}/geojson"
 
