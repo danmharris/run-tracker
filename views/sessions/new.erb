@@ -1,0 +1,7 @@
+<% content_for(:title) { 'Login' } %>
+<h1>Login</h1>
+<form action="/sessions" method="post">
+  <%= csrf_tag('/sessions') %>
+  <input name="password" type="password" />
+  <input type="submit" value="Login" />
+</form>

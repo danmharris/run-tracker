@@ -54,6 +54,14 @@ class App < Roda
     "#{minutes}:#{format('%.2d', seconds)}"
   end
 
+  def authenticate!
+    return if session['authenticated']
+
+    response.status = 401
+    request.redirect('/sessions/new')
+    request.halt
+  end
+
   route do |r|
     r.exception_page_assets
     r.assets
@@ -72,6 +80,8 @@ class App < Roda
         end
 
         r.post do
+          authenticate!
+
           tempfile = tp.file('file')[:tempfile]
           gpx = GPX::GPXFile.new(gpx_file: tempfile)
           uuid = SecureRandom.uuid
@@ -87,6 +97,8 @@ class App < Roda
       end
 
       r.get 'new' do
+        authenticate!
+
         view('runs/new')
       end
 
@@ -117,6 +129,29 @@ class App < Roda
 
           view('runs/show')
         end
+      end
+    end
+
+    r.on 'sessions' do
+      r.post true do
+        unless r.params['password'] == ENV['ADMIN_PASSWORD']
+          response.status = 401
+          r.redirect('/sessions/new')
+          next
+        end
+
+        clear_session
+        session['authenticated'] = true
+        r.redirect('/')
+      end
+
+      r.get 'new' do
+        if session['authenticated']
+          r.redirect('/')
+          next
+        end
+
+        view('sessions/new')
       end
     end
   end
